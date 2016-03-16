@@ -5,4 +5,4 @@ main = start {
   model = 0 0 0 0,
   update = update,
   view = view
-}
+  }
