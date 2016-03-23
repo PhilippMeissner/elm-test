@@ -20,10 +20,10 @@ Elm.Player.make = function (_elm) {
    var update = F2(function (action,model) {
       var _p0 = action;
       switch (_p0.ctor)
-      {case "GoLeft": return model.left + 1;
-         case "GoTop": return model.top + 1;
-         case "GoBottom": return model.bottom + 1;
-         default: return model.right + 1;}
+      {case "GoLeft": return _U.update(model,{left: model.left - 1});
+         case "GoTop": return _U.update(model,{bottom: model.bottom + 1});
+         case "GoBottom": return _U.update(model,{bottom: model.bottom - 1});
+         default: return _U.update(model,{left: model.left + 1});}
    });
    var GoRight = {ctor: "GoRight"};
    var GoBottom = {ctor: "GoBottom"};
@@ -38,8 +38,8 @@ Elm.Player.make = function (_elm) {
               ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,GoRight)]),_U.list([$Html.text("RIGHT")]))
               ,A2($Html.div,_U.list([pewStyle]),_U.list([$Html.text($Basics.toString(model))]))]));
    });
-   var init = F4(function (l,t,b,r) {    return {left: l,top: t,bottom: b,right: r};});
-   var Model = F4(function (a,b,c,d) {    return {left: a,top: b,bottom: c,right: d};});
+   var init = F2(function (l,b) {    return {left: l,bottom: b};});
+   var Model = F2(function (a,b) {    return {left: a,bottom: b};});
    return _elm.Player.values = {_op: _op
                                ,Model: Model
                                ,init: init

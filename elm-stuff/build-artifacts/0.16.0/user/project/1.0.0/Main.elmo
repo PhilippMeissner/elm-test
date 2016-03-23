@@ -1,0 +1,89 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values) return _elm.Main.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Char = Elm.Char.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Effects = Elm.Effects.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $Keyboard = Elm.Keyboard.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp = Elm.StartApp.make(_elm),
+   $Task = Elm.Task.make(_elm);
+   var _op = {};
+   var buttonStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "width",_1: "100px"}]));
+   var Keys = F2(function (a,b) {    return {x: a,y: b};});
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
+         case "Left": return {ctor: "_Tuple2",_0: _U.update(model,{x: model.x - 1}),_1: $Effects.none};
+         case "Right": return {ctor: "_Tuple2",_0: _U.update(model,{x: model.x + 1}),_1: $Effects.none};
+         case "Down": return {ctor: "_Tuple2",_0: _U.update(model,{y: model.y - 1}),_1: $Effects.none};
+         default: return {ctor: "_Tuple2",_0: _U.update(model,{y: model.y + 1}),_1: $Effects.none};}
+   });
+   var NoOp = {ctor: "NoOp"};
+   var Up = {ctor: "Up"};
+   var Down = {ctor: "Down"};
+   var Right = {ctor: "Right"};
+   var Left = {ctor: "Left"};
+   var spaceToInc = function (keyCode) {
+      var _p1 = $Char.fromCode(keyCode);
+      switch (_p1.valueOf())
+      {case "a": return Left;
+         case "w": return Up;
+         case "s": return Down;
+         case "d": return Right;
+         default: return NoOp;}
+   };
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([A2($Html.button,
+              _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "display",_1: "block"}
+                                                      ,{ctor: "_Tuple2",_0: "width",_1: "100px"}
+                                                      ,{ctor: "_Tuple2",_0: "margin-left",_1: "100px"}]))
+                      ,A2($Html$Events.onClick,address,Up)]),
+              _U.list([$Html.text("Up")]))
+              ,A2($Html.button,_U.list([buttonStyle,A2($Html$Events.onClick,address,Left)]),_U.list([$Html.text("Left")]))
+              ,A2($Html.button,_U.list([buttonStyle,A2($Html$Events.onClick,address,Down)]),_U.list([$Html.text("Down")]))
+              ,A2($Html.button,_U.list([buttonStyle,A2($Html$Events.onClick,address,Right)]),_U.list([$Html.text("Right")]))
+              ,A2($Html.img,
+              _U.list([$Html$Attributes.src("mario.jpg")
+                      ,$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "width",_1: "100px"}
+                                                      ,{ctor: "_Tuple2",_0: "position",_1: "absolute"}
+                                                      ,{ctor: "_Tuple2",_0: "left",_1: A2($Basics._op["++"],$Basics.toString(model.x),"%")}
+                                                      ,{ctor: "_Tuple2",_0: "bottom",_1: A2($Basics._op["++"],$Basics.toString(model.y),"%")}]))]),
+              _U.list([]))]));
+   });
+   var initialModel = {x: 2,y: 10};
+   var Model = F2(function (a,b) {    return {x: a,y: b};});
+   var init = {ctor: "_Tuple2",_0: initialModel,_1: $Effects.none};
+   var app = $StartApp.start({init: init,view: view,update: update,inputs: _U.list([A2($Signal.map,spaceToInc,$Keyboard.presses)])});
+   var main = app.html;
+   var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
+   return _elm.Main.values = {_op: _op
+                             ,app: app
+                             ,main: main
+                             ,init: init
+                             ,Model: Model
+                             ,initialModel: initialModel
+                             ,view: view
+                             ,Left: Left
+                             ,Right: Right
+                             ,Down: Down
+                             ,Up: Up
+                             ,NoOp: NoOp
+                             ,update: update
+                             ,Keys: Keys
+                             ,spaceToInc: spaceToInc
+                             ,buttonStyle: buttonStyle};
+};
